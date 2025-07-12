@@ -4,3 +4,4 @@ sqlalchemy
 pydantic-settings
 pydantic[email]
 passlib[bcrypt]
+mangum
