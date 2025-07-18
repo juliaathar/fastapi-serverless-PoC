@@ -1,6 +1,6 @@
 service: fastapi-serverless
 
-frameworkVersion: '3' 
+frameworkVersion: '3'
 
 provider:
   name: aws
@@ -19,17 +19,18 @@ package:
 functions:
   api:
     handler: app.lambda_handler.handler
+    individually: true 
     events:
       - httpApi:
           path: /{proxy+}
           method: '*'
+    pythonRequirements:
+      dockerizePip: false
+      zip: true
+      slim: true
+      requirementsFile: requirements.txt
 
 plugins:
   - serverless-python-requirements
 
-custom:
-  pythonRequirements:
-    dockerizePip: false
-    zip: true
-    slim: true
-    requirementsFile: requirements.txt```
+custom: {}
