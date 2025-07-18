@@ -1,16 +1,28 @@
 service: fastapi-serverless
 
+frameworkVersion: '3' 
+
 provider:
   name: aws
   runtime: python3.11
   region: us-east-1
+  stage: dev
   timeout: 30
+
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!venv/**'
+    - '!__pycache__/**'
+    - '!.git/**'
 
 functions:
   api:
     handler: app.lambda_handler.handler
     events:
-      - httpApi: '*'
+      - httpApi:
+          path: /{proxy+}
+          method: '*'
 
 plugins:
   - serverless-python-requirements
@@ -20,9 +32,4 @@ custom:
     dockerizePip: false
     zip: true
     slim: true
-
-package:
-  exclude:
-    - node_modules/**
-    - venv/**
-    - __pycache__/**
+    requirementsFile: requirements.txt```
